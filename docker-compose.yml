@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: nimbleplatform/asg-importer:latest
+    environment:
+      EFS_URL:
+      SR_URL:
+      X_API_KEY:
+    networks:
+      - efactory-network
+
+networks:
+  efactory-network:
+    external:
+      name: security-network
