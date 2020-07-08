@@ -93,7 +93,7 @@ const syncData = async url => {
                                     "client_secret": CLIENT_SECRET,
                                     "discovery": `${EFS_URL}/auth/realms/master/.well-known/openid-configuration`,
                                     "bearer_only": true,
-                                    "scope": "master",
+                                    "realm": "master",
                                     "introspection_endpoint": `${EFS_URL}/auth/realms/master/protocol/openid-connect/token/introspect`
                                 }
                             },
