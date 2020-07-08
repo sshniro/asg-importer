@@ -10,7 +10,7 @@ let util = {
         if (nodes !== undefined && nodes.length !== 0) {
             for (let i = 0; i < nodes.length; i++) {
                 let node = nodes[i];
-                if (node.value.uri === `/${rootPrefix}/${prefix}/${path}` && node.value.upstream.nodes.hasOwnProperty(hostPort)) {
+                if (node.value.uri === `/${rootPrefix}/${prefix}${path}` && node.value.upstream.nodes.hasOwnProperty(hostPort)) {
                     let key = nodes[i].key;
                     routeID = key.substring(key.lastIndexOf("/") + 1, key.length);
                     break;

@@ -2,7 +2,7 @@
   "name": "asg-sync-service",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "node-fetch": "^2.6.0",
-    "s": "^1.0.0"
+    "s": "^1.0.0",
+    "node-cron": "^2.0.3"
   }
 }

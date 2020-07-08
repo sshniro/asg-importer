@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+const cron = require("node-cron");
 const utils = require("./utils");
 
 let SR_URL = process.env.SR_URL;
@@ -127,3 +128,7 @@ const syncData = async url => {
 };
 
 syncData(SR_URL);
+
+cron.schedule("0 */6 * * *", function() {
+    syncData(SR_URL);
+});
