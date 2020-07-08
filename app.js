@@ -5,6 +5,8 @@ const utils = require("./utils");
 let SR_URL = process.env.SR_URL;
 let EFS_URL = process.env.EFS_URL;
 let X_API_KEY = process.env.X_API_KEY;
+let CLIENT_ID = process.env.CLIENT_ID;
+let CLIENT_SECRET = process.env.CLIENT_SECRET;
 let ROOT_PREFIX = "apis";
 
 let currentIncrement = 10;
@@ -85,6 +87,14 @@ const syncData = async url => {
                             plugins: {
                                 "proxy-rewrite": {
                                     "regex_uri": [regex, regexReplace]
+                                },
+                                "openid-connect": {
+                                    "client_id": CLIENT_ID,
+                                    "client_secret": CLIENT_SECRET,
+                                    "discovery": `${EFS_URL}/auth/realms/master/.well-known/openid-configuration`,
+                                    "bearer_only": true,
+                                    "scope": "master",
+                                    "introspection_endpoint": `${EFS_URL}/auth/realms/master/protocol/openid-connect/token/introspect`
                                 }
                             },
                             upstream: {
