@@ -71,7 +71,7 @@ let util = {
                     "scheme": "https"
                 },
                 "authz-keycloak": {
-                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token/introspect`.replace(/^http:\/\//i, 'https://'),
+                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`.replace(/^http:\/\//i, 'https://'),
                     "permissions": ["service_registry#sr_view"],
                     "audience": "apisix"
                 }
