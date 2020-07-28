@@ -1,5 +1,31 @@
 const fetch = require("node-fetch");
 
+let apiRequest = ((URL,X_API_KEY, method,body) => {
+    let options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-API-KEY': X_API_KEY
+        },
+    };
+
+    if (body !== null) {
+        options.body = JSON.stringify(body);
+    }
+
+    fetch(URL, options)
+        .then(res => {
+            return res.json()
+        })
+        .then(json => {
+            console.log(`created default route ${JSON.stringify(json)}`)
+        })
+        .catch((err) => {
+            console.log(`error occurred while creating the route: ${err}`)
+        });
+
+});
+
 let util = {
     getMatchingRoute: ((asgJson, hostPort, prefix, path, rootPrefix) => {
         let routeID = null;
@@ -18,6 +44,71 @@ let util = {
             }
         }
         return routeID;
+    }),
+
+    createServiceRegistryEndpoint: ((SR_URL, efsURL, X_API_KEY) => {
+
+        let url = new URL(SR_URL);
+
+        let host = url.hostname;
+        let port = url.port;
+
+        if(port === undefined || port === ""){
+            if (url.protocol === "http:") {
+                port = 80
+            }else {
+                port = 443
+            }
+        }
+        let hostPort = `${host}:${port}`;
+
+        const srGetBody = {
+            "methods": ["GET"],
+            "uri": "/apis/sr",
+            "plugins": {
+                "proxy-rewrite": {
+                    "regex_uri": ["^/apis/sr(.*)", "/$1"],
+                    "scheme": "https"
+                },
+                "authz-keycloak": {
+                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token/introspect`.replace(/^http:\/\//i, 'https://'),
+                    "permissions": ["service_registry#sr_view"],
+                    "audience": "apisix"
+                }
+            },
+            "upstream": {
+                "type": "roundrobin",
+                "nodes": {
+                    [hostPort]: 1
+                }
+            }
+        };
+
+
+        const srAdminBody = {
+            "methods": ["POST", "PUT", "PATCH", "DELETE"],
+            "uri": "/apis/sr",
+            "plugins": {
+                "proxy-rewrite": {
+                    "regex_uri": ["^/apis/sr(.*)", "/$1"],
+                    "scheme": "https"
+                },
+                "authz-keycloak": {
+                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token/introspect`.replace(/^http:\/\//i, 'https://'),
+                    "permissions": ["service_registry#sr_admin"],
+                    "audience": "apisix"
+                }
+            },
+            "upstream": {
+                "type": "roundrobin",
+                "nodes": {
+                    [hostPort]: 1
+                }
+            }
+        };
+
+        apiRequest(`${efsURL}/apisix/admin/routes/2`, X_API_KEY, "PUT", srGetBody);
+        apiRequest(`${efsURL}/apisix/admin/routes/3`, X_API_KEY, "PUT", srAdminBody);
     }),
 
     createOrUpdateEcoEndpoint: ((asgJson, efsURL, X_API_KEY) => {
@@ -50,23 +141,7 @@ let util = {
                 }
             };
 
-            fetch(`${efsURL}/apisix/admin/routes/1`, {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-API-KEY': X_API_KEY
-                },
-            })
-                .then(res => {
-                    return res.json()
-                })
-                .then(json => {
-                    console.log(`created default route ${JSON.stringify(json)}`)
-                })
-                .catch((err) => {
-                    console.log(`error occurred while creating the route: ${err}`)
-                })
+            apiRequest(`${efsURL}/apisix/admin/routes/1`, X_API_KEY, "PUT", body);
         }
     })
 };

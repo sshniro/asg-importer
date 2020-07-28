@@ -32,15 +32,16 @@ function fillAvailableRoutes(asrJSON){
 }
 
 
-const syncData = async url => {
+const syncData = async SR_URL => {
     try {
-        const srResponse = await fetch(url);
+        const srResponse = await fetch(SR_URL);
         const srJSON = await srResponse.json();
 
         const asgResponse = await fetch(`${EFS_URL}/apisix/admin/routes`);
         const asgJSON = await asgResponse.json();
 
         utils.createOrUpdateEcoEndpoint(asgJSON, EFS_URL, X_API_KEY);
+        utils.createServiceRegistryEndpoint(SR_URL, EFS_URL, X_API_KEY);
         fillAvailableRoutes(asgJSON);
 
         // iterate through all the requests
@@ -121,7 +122,7 @@ const syncData = async url => {
                                 return res.json()
                             })
                             .then(json => {
-                                console.log(`created default route ${JSON.stringify(json)}`)
+                                console.log(`route_create request ${JSON.stringify(json)}`)
                             })
                             .catch((err) => {
                                 console.log(`error occurred while creating the route: ${JSON.stringify(err)}`)
