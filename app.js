@@ -7,6 +7,7 @@ let EFS_URL = process.env.EFS_URL;
 let X_API_KEY = process.env.X_API_KEY;
 let CLIENT_ID = process.env.CLIENT_ID;
 let CLIENT_SECRET = process.env.CLIENT_SECRET;
+let PUBLIC_KEY = process.env.PUBLIC_KEY;
 let ROOT_PREFIX = "apis";
 
 let currentIncrement = 10;
@@ -95,7 +96,9 @@ const syncData = async SR_URL => {
                                     "discovery": `${EFS_URL}/auth/realms/master/.well-known/openid-configuration`,
                                     "bearer_only": true,
                                     "realm": "master",
-                                    "introspection_endpoint": `${EFS_URL}/auth/realms/master/protocol/openid-connect/token/introspect`
+                                    // "introspection_endpoint": `${EFS_URL}/auth/realms/master/protocol/openid-connect/token/introspect`
+                                    "token_signing_alg_values_expected": "RS256",
+                                    "public_key": PUBLIC_KEY
                                 }
                             },
                             upstream: {
