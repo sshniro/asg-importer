@@ -49,7 +49,7 @@ let util = {
     createServiceRegistryEndpoint: ((SR_URL, efsURL, X_API_KEY) => {
 
         let url_split = SR_URL;
-        url_split = str.split("/services/")[0];
+        url_split = url_split.split("/services/")[0];
         let url = new URL(url_split);
 
         let host = url.hostname;
