@@ -75,7 +75,8 @@ let util = {
                 "authz-keycloak": {
                     "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_view"],
-                    "audience": "apisix"
+                    "audience": "apisix",
+                    "ssl_verify": false,
                 }
             },
             "upstream": {
@@ -98,7 +99,8 @@ let util = {
                 "authz-keycloak": {
                     "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_admin"],
-                    "audience": "apisix"
+                    "audience": "apisix",
+                    "ssl_verify": false,
                 }
             },
             "upstream": {
