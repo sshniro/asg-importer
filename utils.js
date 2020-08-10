@@ -76,7 +76,7 @@ let util = {
                     "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_view"],
                     "audience": "apisix",
-                    "ssl_verify": false,
+                    "ssl_verify": false
                 }
             },
             "upstream": {
@@ -100,7 +100,7 @@ let util = {
                     "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_admin"],
                     "audience": "apisix",
-                    "ssl_verify": false,
+                    "ssl_verify": false
                 }
             },
             "upstream": {
