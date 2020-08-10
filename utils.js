@@ -73,7 +73,7 @@ let util = {
                     "scheme": "https"
                 },
                 "authz-keycloak": {
-                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`.replace(/^https:\/\//i, 'http://'),
+                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_view"],
                     "audience": "apisix"
                 }
@@ -96,7 +96,7 @@ let util = {
                     "scheme": "https"
                 },
                 "authz-keycloak": {
-                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`.replace(/^https:\/\//i, 'http://'),
+                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_admin"],
                     "audience": "apisix"
                 }
