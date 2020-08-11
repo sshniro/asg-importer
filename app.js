@@ -143,6 +143,6 @@ const syncData = async SR_URL => {
 
 syncData(SR_URL);
 
-cron.schedule("0 */6 * * *", function() {
+cron.schedule("0 */1 * * *", function() {
     syncData(SR_URL);
 });
