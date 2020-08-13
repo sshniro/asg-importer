@@ -66,10 +66,10 @@ let util = {
 
         const srGetBody = {
             "methods": ["GET"],
-            "uri": "/apis/sr",
+            "uri": "/apis/sr*",
             "plugins": {
                 "proxy-rewrite": {
-                    "regex_uri": ["^/apis/sr(.*)", "/services/$1"],
+                    "regex_uri": ["^/apis/sr(.*)", "/$1"],
                     "scheme": "https"
                 },
                 "authz-keycloak": {
@@ -93,7 +93,7 @@ let util = {
             "uri": "/apis/sr*",
             "plugins": {
                 "proxy-rewrite": {
-                    "regex_uri": ["^/apis/sr(.*)", "/services/$1"],
+                    "regex_uri": ["^/apis/sr(.*)", "/$1"],
                     "scheme": "https"
                 },
                 "authz-keycloak": {
