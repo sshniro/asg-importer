@@ -69,7 +69,7 @@ let util = {
             "uri": "/apis/sr",
             "plugins": {
                 "proxy-rewrite": {
-                    "regex_uri": ["^/apis/sr/(.*)", "/services/$1"],
+                    "regex_uri": ["^/apis/sr(.*)", "/services/$1"],
                     "scheme": "https"
                 },
                 "authz-keycloak": {
@@ -93,7 +93,7 @@ let util = {
             "uri": "/apis/sr",
             "plugins": {
                 "proxy-rewrite": {
-                    "regex_uri": ["^/apis/sr/(.*)", "/services/$1"],
+                    "regex_uri": ["^/apis/sr(.*)", "/services/$1"],
                     "scheme": "https"
                 },
                 "authz-keycloak": {
