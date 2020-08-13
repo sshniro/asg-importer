@@ -48,7 +48,9 @@ let util = {
 
     createServiceRegistryEndpoint: ((SR_URL, efsURL, X_API_KEY) => {
 
-        let url = new URL(SR_URL);
+        let url_split = SR_URL;
+        url_split = url_split.split("/services/")[0];
+        let url = new URL(url_split);
 
         let host = url.hostname;
         let port = url.port;
@@ -64,16 +66,17 @@ let util = {
 
         const srGetBody = {
             "methods": ["GET"],
-            "uri": "/apis/sr",
+            "uri": "/apis/sr*",
             "plugins": {
                 "proxy-rewrite": {
-                    "regex_uri": ["^/apis/sr(.*)", "/$1"],
+                    "regex_uri": ["^/apis/sr(.*)", "/services/$1"],
                     "scheme": "https"
                 },
                 "authz-keycloak": {
-                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`.replace(/^https:\/\//i, 'http://'),
+                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_view"],
-                    "audience": "apisix"
+                    "audience": "apisix",
+                    "ssl_verify": false
                 }
             },
             "upstream": {
@@ -87,16 +90,17 @@ let util = {
 
         const srAdminBody = {
             "methods": ["POST", "PUT", "PATCH", "DELETE"],
-            "uri": "/apis/sr",
+            "uri": "/apis/sr*",
             "plugins": {
                 "proxy-rewrite": {
-                    "regex_uri": ["^/apis/sr(.*)", "/$1"],
+                    "regex_uri": ["^/apis/sr(.*)", "/services/$1"],
                     "scheme": "https"
                 },
                 "authz-keycloak": {
-                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`.replace(/^https:\/\//i, 'http://'),
+                    "token_endpoint": `${efsURL}/auth/realms/master/protocol/openid-connect/token`,
                     "permissions": ["service_registry#sr_admin"],
-                    "audience": "apisix"
+                    "audience": "apisix",
+                    "ssl_verify": false
                 }
             },
             "upstream": {
