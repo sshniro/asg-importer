@@ -131,7 +131,7 @@ const syncData = async SR_URL => {
                                 console.log(`error occurred while creating the route: ${JSON.stringify(err)}`)
                             })
                     }catch (e) {
-                        console.log('error when parsing the routes');
+                        console.log(`error when parsing the routes: ${JSON.stringify(e)}`)
                     }
                 }
             }
