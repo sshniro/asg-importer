@@ -55,7 +55,7 @@ const syncData = async SR_URL => {
 
                     try{
                         let api = rootAPI.apis[j];
-                        let url = new URL(api.endpoint);
+                        let url = new URL(api.url);
 
                         let host = url.hostname;
                         let port = url.port;
