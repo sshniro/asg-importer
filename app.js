@@ -85,7 +85,7 @@ const syncData = async SR_URL => {
                         let regex = `^/${ROOT_PREFIX}/${prefix}${url.pathname}(.*)`;
 
                         const body = {
-                            uri: `/${ROOT_PREFIX}/${prefix}${url.pathname}`,
+                            uri: `/${ROOT_PREFIX}/${prefix}${url.pathname}*`,
                             plugins: {
                                 "proxy-rewrite": {
                                     "regex_uri": [regex, regexReplace]
