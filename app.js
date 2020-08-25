@@ -55,7 +55,7 @@ const syncData = async SR_URL => {
 
                     try{
                         let api = rootAPI.apis[j];
-                        let url = new URL(api.endpoint);
+                        let url = new URL(api.url);
 
                         let host = url.hostname;
                         let port = url.port;
@@ -85,7 +85,7 @@ const syncData = async SR_URL => {
                         let regex = `^/${ROOT_PREFIX}/${prefix}${url.pathname}(.*)`;
 
                         const body = {
-                            uri: `/${ROOT_PREFIX}/${prefix}${url.pathname}`,
+                            uri: `/${ROOT_PREFIX}/${prefix}${url.pathname}*`,
                             plugins: {
                                 "proxy-rewrite": {
                                     "regex_uri": [regex, regexReplace]
@@ -131,7 +131,7 @@ const syncData = async SR_URL => {
                                 console.log(`error occurred while creating the route: ${JSON.stringify(err)}`)
                             })
                     }catch (e) {
-                        console.log('error when parsing the routes');
+                        console.log(`error when parsing the routes: ${JSON.stringify(e)}`)
                     }
                 }
             }
